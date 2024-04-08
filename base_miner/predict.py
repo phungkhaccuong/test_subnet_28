@@ -36,7 +36,7 @@ def simple_predict(timestamp:datetime) -> float:
 
     # data.to_csv('mining_models/base_miner_data.csv')
     input = matching_row[['Open', 'High', 'Low', 'Volume', 'SMA_50', 'SMA_200', 'RSI', 'CCI', 'Momentum', 'Close']]
-    prediction = input['Close'].iloc[0] + np.random.normal(0, 0.5)
+    prediction = input['Close'].iloc[0]
     return np.array([[prediction]])
 
 
