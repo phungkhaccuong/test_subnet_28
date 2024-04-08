@@ -14,6 +14,14 @@ from base_miner.model import create_and_save_base_model_lstm, create_and_save_ba
 # import custom defined files
 from base_miner.get_data import prep_data, scale_data, round_down_time
 
+import yfinance as yf
+
+
+def fast_predict() -> float:
+    df = yf.download('^GSPC', period='5m', interval='1m')
+    prediction = df['Close'].iloc[-1]
+    return np.array([[prediction]])
+
 
 def simple_predict(timestamp:datetime) -> float:
     data = prep_data(drop_na=False)
