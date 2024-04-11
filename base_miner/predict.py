@@ -17,6 +17,11 @@ from base_miner.get_data import prep_data, scale_data, round_down_time
 import yfinance as yf
 
 
+def fast_ticker_predict() -> float:
+    prediction = yf.Ticker('^GSPC').history(period='1s')['Close'].iloc[-1]
+    return np.array([[prediction]])
+
+
 def fast_predict() -> float:
     df = yf.download('^GSPC', period='5m', interval='1m')
     prediction = df['Close'].iloc[-1]

@@ -22,7 +22,7 @@ import time
 import typing
 import bittensor as bt
 
-from base_miner.predict import fast_predict, predict, simple_predict
+from base_miner.predict import fast_predict, fast_ticker_predict, predict, simple_predict
 from base_miner.get_data import prep_data, scale_data
 
 #import predictionnet
@@ -179,7 +179,10 @@ class Miner(BaseMinerNeuron):
         # prediction = simple_predict(timestamp)
 
         # predicting using the close price of last 1m candle
-        prediction = fast_predict()
+        # prediction = fast_predict()
+
+        # predicting using the close price of last 1s candle
+        prediction = fast_ticker_predict()
 
         #pred_np_array = np.array(prediction).reshape(-1, 1)
 
@@ -199,7 +202,7 @@ class Miner(BaseMinerNeuron):
 
 # This is the main function, which runs the miner.
 if __name__ == "__main__":
-    bt.logging.info("Starting miner version v0.3.1 ...")
+    bt.logging.info("Starting miner version v0.4 ...")
     with Miner() as miner:
         while True:
             bt.logging.info("Miner running...", time.time())
