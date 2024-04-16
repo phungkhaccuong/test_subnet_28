@@ -23,6 +23,7 @@ import typing
 import bittensor as bt
 
 from base_miner.predict import fast_predict, fast_ticker_predict, predict, simple_predict
+from base_miner.six_predict import predict as six_predict
 from base_miner.get_data import prep_data, scale_data
 
 #import predictionnet
@@ -182,12 +183,12 @@ class Miner(BaseMinerNeuron):
         # prediction = fast_predict()
 
         # predicting using the close price of last 1s candle
-        prediction = fast_ticker_predict()
+        # prediction = fast_ticker_predict()
 
-        #pred_np_array = np.array(prediction).reshape(-1, 1)
+        # predicting the next 6 candles instead of 1
+        prediction = six_predict()
 
-        # logic to ensure that only past 20 day context exists in synapse
-        synapse.prediction = prediction
+        synapse.prediction = list(prediction[0])
 
         bt.logging.success(
             f"Predicted price 🎯: {synapse.prediction}"
