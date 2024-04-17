@@ -203,7 +203,7 @@ class Miner(BaseMinerNeuron):
 
 # This is the main function, which runs the miner.
 if __name__ == "__main__":
-    bt.logging.info("Starting miner version v0.4 ...")
+    bt.logging.info("Starting miner version v0.5 ...")
     with Miner() as miner:
         while True:
             bt.logging.info("Miner running...", time.time())
