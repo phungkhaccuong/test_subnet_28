@@ -2,7 +2,7 @@ import numpy as np
 import yfinance as yf
 
 
-def predict():
+def predict() -> float:
     """
     Predicting the next 6 candles using the last close
     """
