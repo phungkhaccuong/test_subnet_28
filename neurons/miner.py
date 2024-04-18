@@ -193,8 +193,15 @@ class Miner(BaseMinerNeuron):
             print(f"miner list:::{list(prediction[0])}")
         except Exception as e:
             print(f"LOI:::{e}")
+        print(f"HEREEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE")
+        try:
+            synapse.prediction = list(prediction[0])
+        except Exception as e:
+            print(f"LOI KHI GAN synapse.prediction:::{e}")
+            print(e)
 
-        synapse.prediction = list(prediction[0])
+
+        print(f"synapse.prediction :::{synapse.prediction}")
 
         bt.logging.success(
             f"Predicted price 🎯: {synapse.prediction}"
