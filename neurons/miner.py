@@ -187,6 +187,12 @@ class Miner(BaseMinerNeuron):
 
         # predicting the next 6 candles instead of 1
         prediction = six_predict()
+        try:
+            print(f"miner prediction:::{prediction}")
+            print(f"miner first element:::{prediction[0]}")
+            print(f"miner list:::{list(prediction[0])}")
+        except Exception as e:
+            print(f"LOI:::{e}")
 
         synapse.prediction = list(prediction[0])
 
