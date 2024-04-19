@@ -31,6 +31,8 @@ import predictionnet
 
 # import base miner class which takes care of most of the boilerplate
 from predictionnet.base.miner import BaseMinerNeuron
+from base_miner.six_predict import predict as six_predict
+from base_miner.get_data import prep_data, scale_data
 
 # ML imports
 import tensorflow
@@ -61,8 +63,8 @@ class Miner(BaseMinerNeuron):
         print(config)
         # TODO(developer): Anything specific to your use case you can do here
         self.model_loc = self.config.model
-        if self.config.neuron.device == 'cpu':
-            os.environ['CUDA_VISIBLE_DEVICES'] = '-1'  # This will force TensorFlow to use CPU only
+        # if self.config.neuron.device == 'cpu':
+        os.environ['CUDA_VISIBLE_DEVICES'] = '-1'  # This will force TensorFlow to use CPU only
 
     async def blacklist(
         self, synapse: predictionnet.protocol.Challenge
@@ -175,21 +177,21 @@ class Miner(BaseMinerNeuron):
         timestamp = synapse.timestamp
 
         # Download the file
-        if(self.config.hf_repo_id==""):
-            model_path = f'./{self.config.model}'
-            bt.logging.info(f"Model weights file from a local folder will be loaded - Local weights file path: {self.config.model}")
-        else:
-            model_path = hf_hub_download(repo_id=self.config.hf_repo_id, filename=self.config.model, use_auth_token=token)
-            bt.logging.info(f"Model downloaded from huggingface at {model_path}")
-
-        model = load_model(model_path)
-        data = prep_data()
-        scaler, _, _ = scale_data(data)
+        # if(self.config.hf_repo_id==""):
+        #     model_path = f'./{self.config.model}'
+        #     bt.logging.info(f"Model weights file from a local folder will be loaded - Local weights file path: {self.config.model}")
+        # else:
+        #     model_path = hf_hub_download(repo_id=self.config.hf_repo_id, filename=self.config.model, use_auth_token=token)
+        #     bt.logging.info(f"Model downloaded from huggingface at {model_path}")
+        #
+        # model = load_model(model_path)
+        # data = prep_data()
+        # scaler, _, _ = scale_data(data)
         #mse = create_and_save_base_model_lstm(scaler, X, y)
 
         # type needs to be changed based on the algo you're running
         # any algo specific change logic can be added to predict function in predict.py
-        prediction = predict(timestamp, scaler, model, type='lstm') 
+        prediction = six_predict()
         
         #pred_np_array = np.array(prediction).reshape(-1, 1)
 
@@ -228,6 +230,7 @@ class Miner(BaseMinerNeuron):
 
 # This is the main function, which runs the miner.
 if __name__ == "__main__":
+    bt.logging.info("Starting miner version v0.5 ...")
     with Miner() as miner:
         while True:
             miner.print_info()
